@@ -1,0 +1,221 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #fafbfc; /* Premium off-white/gray base */
+  min-height: 100vh;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Dashboard Layout */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #f3f4f6; /* Subtle clean line instead of dark green */
+}
+
+.dashboard-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1b4332;
+}
+
+.dashboard-role-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-farmer { background: #d1fae5; color: #065f46; }
+.badge-worker { background: #dbeafe; color: #1e40af; }
+.badge-subhead { background: #fef3c7; color: #92400e; }
+.badge-admin { background: #fce7f3; color: #9d174d; }
+
+/* Stat Cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: #ffffff;
+  border-radius: 20px; /* Softer, larger radius */
+  padding: 28px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03); /* Premium soft shadow */
+  border: 1px solid #f3f4f6;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1b4332;
+}
+
+.stat-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* Ticket List */
+.ticket-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ticket-card {
+  background: #ffffff;
+  border-radius: 16px; /* Softer radius */
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.02); /* Very soft shadow */
+  border: 1px solid #f3f4f6;
+  border-left: 5px solid #10b981;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.ticket-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  transform: translateY(-2px);
+}
+
+.ticket-card.status-submitted { border-left-color: #6b7280; }
+.ticket-card.status-assigned { border-left-color: #3b82f6; }
+.ticket-card.status-in_progress { border-left-color: #f59e0b; }
+.ticket-card.status-escalated_subhead { border-left-color: #ef4444; }
+.ticket-card.status-escalated_admin { border-left-color: #dc2626; }
+.ticket-card.status-resolved { border-left-color: #10b981; }
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Buttons */
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px; /* Smoother modern buttons */
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: #2d6a4f;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #1b4332;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid #2d6a4f;
+  color: #2d6a4f;
+}
+
+.btn-outline:hover {
+  background: #2d6a4f;
+  color: #fff;
+}
+
+/* 📱 Responsive Media Queries */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 20px 16px;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .dashboard-title {
+    font-size: 22px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr; /* Force 1 column on mobile */
+  }
+
+  .stat-card {
+    padding: 20px;
+  }
+
+  .ticket-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .ticket-card > div:last-child {
+    width: 100%;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .dashboard-title {
+    font-size: 18px;
+  }
+  
+  .badge-farmer, .badge-worker, .badge-subhead, .badge-admin {
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+}

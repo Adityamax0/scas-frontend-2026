@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SCAS</string>
+    <string name="title_activity_main">SCAS</string>
+    <string name="package_name">com.aditya.scas</string>
+    <string name="custom_url_scheme">com.aditya.scas</string>
+</resources>
