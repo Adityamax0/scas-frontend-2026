@@ -3,13 +3,43 @@
 import { useEffect, useState } from 'react';
 import KrishiMitraChat from '@/components/KrishiMitraChat';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://scas-backend.onrender.com';
+
 export default function HomePage() {
   const [scrolled, setScrolled] = useState(false);
+  const [stats, setStats] = useState({
+    districts: '15+',
+    farmers: '500+',
+    resolved: '300+',
+    avgTime: '24h',
+  });
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Load live stats from backend
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return; // Only fetch if user is logged in (admin)
+    fetch(`${API_URL}/api/analytics`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success && data.data) {
+          const d = data.data;
+          setStats({
+            districts: d.totalDistricts ? `${d.totalDistricts}+` : '15+',
+            farmers: d.totalFarmers ? `${d.totalFarmers}+` : '500+',
+            resolved: d.totalResolved ? `${d.totalResolved}+` : '300+',
+            avgTime: d.avgResolutionHrs ? `${Math.round(d.avgResolutionHrs)}h` : '24h',
+          });
+        }
+      })
+      .catch(() => {}); // Silently fall back to static values
   }, []);
 
   return (
@@ -27,7 +57,7 @@ export default function HomePage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '24px', fontWeight: 800, color: '#1b4332' }}>
             🌾 SCAS
           </div>
-          <div style={{ display: 'none', mdDisplay: 'flex', gap: '32px', fontSize: '15px', fontWeight: 500, color: '#4b5563' }} className="nav-links">
+          <div style={{ display: 'flex', gap: '32px', fontSize: '15px', fontWeight: 500, color: '#4b5563' }} className="nav-links">
             <a href="#about">About</a>
             <a href="#features">Features</a>
             <a href="#process">Process</a>
@@ -62,7 +92,7 @@ export default function HomePage() {
           </a>
         </div>
         
-        {/* Massive Hero Block */}
+        {/* Hero Block */}
         <div style={{ padding: '0 24px', marginTop: '20px' }}>
           <div style={{
             width: '100%', height: '500px', borderRadius: '30px', overflow: 'hidden',
@@ -73,17 +103,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Stats Section — Live Data */}
       <section style={{ padding: '80px 24px', maxWidth: '1280px', margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '40px', textAlign: 'center', borderBottom: '1px solid #f3f4f6', paddingBottom: '60px' }}>
-          <div><h3 style={{ fontSize: '48px', fontWeight: 300, color: '#111827', marginBottom: '8px' }}>50+</h3><p style={{ color: '#6b7280', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>Govt Districts</p></div>
-          <div><h3 style={{ fontSize: '48px', fontWeight: 300, color: '#111827', marginBottom: '8px' }}>10,000+</h3><p style={{ color: '#6b7280', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>Farmers Helped</p></div>
-          <div><h3 style={{ fontSize: '48px', fontWeight: 300, color: '#111827', marginBottom: '8px' }}>5,000+</h3><p style={{ color: '#6b7280', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>Problems Resolved</p></div>
-          <div><h3 style={{ fontSize: '48px', fontWeight: 300, color: '#111827', marginBottom: '8px' }}>24h</h3><p style={{ color: '#6b7280', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>Avg Resolution Time</p></div>
+          <div><h3 style={{ fontSize: '48px', fontWeight: 300, color: '#111827', marginBottom: '8px' }}>{stats.districts}</h3><p style={{ color: '#6b7280', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>Govt Districts</p></div>
+          <div><h3 style={{ fontSize: '48px', fontWeight: 300, color: '#111827', marginBottom: '8px' }}>{stats.farmers}</h3><p style={{ color: '#6b7280', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>Farmers Helped</p></div>
+          <div><h3 style={{ fontSize: '48px', fontWeight: 300, color: '#111827', marginBottom: '8px' }}>{stats.resolved}</h3><p style={{ color: '#6b7280', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>Problems Resolved</p></div>
+          <div><h3 style={{ fontSize: '48px', fontWeight: 300, color: '#111827', marginBottom: '8px' }}>{stats.avgTime}</h3><p style={{ color: '#6b7280', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>Avg Resolution Time</p></div>
         </div>
       </section>
 
-      {/* Empowering Farmers (3 vertical cards) */}
+      {/* Features */}
       <section id="features" style={{ padding: '60px 24px', backgroundColor: '#fafbfc' }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px' }}>
@@ -104,7 +134,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* India's Agricultural Powerhouse (3 Crop Cards) */}
+      {/* Crops Section */}
       <section id="crops" style={{ padding: '100px 24px', backgroundColor: '#ffffff', textAlign: 'center' }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
           <span style={{ color: '#1b4332', fontWeight: 700, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>★ Top Crops</span>
@@ -124,11 +154,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Process (4 grid squares) */}
+      {/* Process */}
       <section id="process" style={{ padding: '80px 24px', backgroundColor: '#fafbfc' }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '60px' }}>
-             <div style={{ maxWidth: '400px' }}>
+            <div style={{ maxWidth: '400px' }}>
               <span style={{ color: '#10b981', fontWeight: 700, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>★ The Process</span>
               <h2 style={{ fontSize: '36px', fontWeight: 700, color: '#111827', marginTop: '12px', lineHeight: 1.2 }}>From Local Farm to Global Trade</h2>
             </div>
@@ -146,23 +176,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonial / Trust Grid */}
+      {/* Testimonials — Clearly labeled as simulated */}
       <section style={{ padding: '100px 24px', backgroundColor: '#ffffff', textAlign: 'center' }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <span style={{ color: '#1b4332', fontWeight: 700, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>★ Wall of Trust</span>
-          <h2 style={{ fontSize: '36px', fontWeight: 700, color: '#111827', margin: '16px auto 40px', maxWidth: '600px', lineHeight: 1.2 }}>
-            Trusted by Farmers & Officials Worldwide
+          <span style={{ color: '#1b4332', fontWeight: 700, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>★ Simulated Feedback</span>
+          <h2 style={{ fontSize: '36px', fontWeight: 700, color: '#111827', margin: '16px auto 8px', maxWidth: '600px', lineHeight: 1.2 }}>
+            Designed with Real Use-Cases in Mind
           </h2>
+          <p style={{ color: '#9ca3af', fontSize: '13px', marginBottom: '40px', fontStyle: 'italic' }}>
+            * Testimonials below are representative of expected user journeys. Real user data will replace these post-pilot.
+          </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', textAlign: 'left' }}>
-            <TrustCard text="SCAS caught a massive blight infection in my potato crop 3 days before it spread to my 10 acre neighbor. Saved my season." name="Ramesh Kumar" role="Farmer, UP" />
-            <TrustCard text="As a district officer, the automated SLA escalation means I don't have to micromanage. If a ticket breaches 24 hours, I know about it instantly." name="Govind Singh" role="Sub-Head, MP" />
-            <TrustCard text="The Hindi voice assistant is incredible. I just speak my problem into the phone and it logs the ticket perfectly every time." name="Sunita Devi" role="Farmer, Haryana" />
-            <TrustCard text="It actually works offline. I created 3 tickets in the middle of nowhere and they all synced perfectly when I got back to the village." name="Rajesh P" role="Worker, Punjab" />
+            <TrustCard text="SCAS caught a blight infection in my potato crop 3 days before it could spread. It saved my entire season." name="Ramesh K." role="Farmer, UP (Simulated)" />
+            <TrustCard text="As a district officer, the automated SLA escalation means I don't have to micromanage critical alerts." name="Govind S." role="Sub-Head, MP (Simulated)" />
+            <TrustCard text="The Hindi voice assistant is incredible. I just speak and it logs the ticket — even offline." name="Sunita D." role="Farmer, Haryana (Simulated)" />
+            <TrustCard text="I created 3 tickets in a no-signal zone and they all synced perfectly once I reached the village." name="Rajesh P." role="Worker, Punjab (Simulated)" />
           </div>
         </div>
       </section>
 
-      {/* Massive Dark CTA Footer */}
+      {/* CTA Footer */}
       <section style={{ padding: '0 24px 60px', maxWidth: '1280px', margin: '0 auto' }}>
         <div style={{ 
           backgroundColor: '#1b4332', borderRadius: '30px', padding: '100px 60px', 
@@ -174,7 +207,7 @@ export default function HomePage() {
             Ready to Take Indian Agriculture Global?
           </h2>
           <p style={{ fontSize: '18px', color: '#d1fae5', marginBottom: '40px', maxWidth: '500px', lineHeight: 1.6 }}>
-            Join 10,000+ farmers securing their harvests with SCAS's AI and expert advisory network.
+            Join farmers across 15+ districts securing their harvests with SCAS's AI and expert advisory network.
           </p>
           <a href="/register" style={{ padding: '18px 40px', backgroundColor: '#fff', color: '#1b4332', borderRadius: '40px', fontWeight: 700, fontSize: '16px', display: 'inline-block' }}>
             Register as a Farmer Now
@@ -182,7 +215,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Simple Footer */}
+      {/* Footer */}
       <footer style={{ padding: '40px 24px', borderTop: '1px solid #e5e7eb', backgroundColor: '#fff' }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ fontWeight: 800, color: '#1b4332', fontSize: '20px' }}>🌾 SCAS</div>
@@ -190,7 +223,7 @@ export default function HomePage() {
         </div>
       </footer>
 
-      {/* Global AI Chatbot Available on Homepage */}
+      {/* Global AI Chatbot */}
       <div style={{ position: 'fixed', bottom: '40px', right: '40px', zIndex: 9999 }}>
         <KrishiMitraChat />
       </div>
@@ -198,7 +231,7 @@ export default function HomePage() {
   );
 }
 
-// Subcomponents for the clean look
+// Subcomponents
 
 function FeatureCard({ number, title, desc, emoji, color }) {
   return (
@@ -262,3 +295,4 @@ function TrustCard({ text, name, role }) {
     </div>
   );
 }
+
