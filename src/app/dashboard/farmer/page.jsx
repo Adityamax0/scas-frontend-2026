@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import TicketForm from '@/components/TicketForm';
@@ -14,7 +14,6 @@ import TicketCard from '@/components/TicketCard';
 import { TicketSkeleton } from '@/components/SkeletonLoader';
 import api from '@/lib/api';
 
-export const dynamic = 'force-static';
 
 export default function FarmerDashboard() {
   const { t } = useLang();
@@ -48,7 +47,7 @@ export default function FarmerDashboard() {
 
   useEffect(() => { fetchTickets(); }, []);
 
-  // ── PULL-TO-REFRESH LOGIC (Mobile Optimized) ──
+  // â”€â”€ PULL-TO-REFRESH LOGIC (Mobile Optimized) â”€â”€
   const [startY, setStartY] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -128,7 +127,7 @@ export default function FarmerDashboard() {
         </div>
       </div>
 
-      {/* 🛰️ 2026 PRECISION MONITORING: REMOTE HEALTH */}
+      {/* ðŸ›°ï¸ 2026 PRECISION MONITORING: REMOTE HEALTH */}
       <ErrorBoundary fallbackMessage="Satellite Downlink is currently drifting. Please wait for the next orbit.">
         <SatelliteMap district={profile?.district || "Kanpur"} />
       </ErrorBoundary>
@@ -144,7 +143,7 @@ export default function FarmerDashboard() {
 
       <ErrorBoundary fallbackMessage="Government Schemes tracking is currently offline.">
         <GovAdvisory />
-        {/* 🚁 2026 NAMO DRONE DIDI SUBSIDY (KANPUR SPECIAL) */}
+        {/* ðŸš 2026 NAMO DRONE DIDI SUBSIDY (KANPUR SPECIAL) */}
         <div style={{ 
           marginTop: '16px', 
           padding: '16px', 
@@ -158,12 +157,12 @@ export default function FarmerDashboard() {
               <span style={{ fontSize: '10px', textTransform: 'uppercase', fontWeight: 'bold', tracking: '1px', color: '#94a3b8' }}>
                 MISSION 2026 (UP GOVT)
               </span>
-              <h4 style={{ margin: '4px 0', fontSize: '16px', fontWeight: '900' }}>🚁 Namo Drone Didi Subsidy</h4>
+              <h4 style={{ margin: '4px 0', fontSize: '16px', fontWeight: '900' }}>ðŸš Namo Drone Didi Subsidy</h4>
               <p style={{ margin: 0, fontSize: '11px', color: '#cbd5e1' }}>
-                Join local SHGs in Kanpur to get **80% Subsidy** (up to ₹8 Lakhs) on agricultural drones.
+                Join local SHGs in Kanpur to get **80% Subsidy** (up to â‚¹8 Lakhs) on agricultural drones.
               </p>
             </div>
-            <span style={{ fontSize: '24px' }}>🚁</span>
+            <span style={{ fontSize: '24px' }}>ðŸš</span>
           </div>
           <button 
             style={{ 
@@ -172,12 +171,12 @@ export default function FarmerDashboard() {
             }}
             onClick={() => window.open('https://pib.gov.in/PressNoteDetails.aspx?NoteId=151811','_blank')}
           >
-            Apply via SHG Portal →
+            Apply via SHG Portal â†’
           </button>
         </div>
       </ErrorBoundary>
 
-      {/* 🇮🇳 2026 AGRISTACK: DIGITAL IDENTITY & LAND RECORD SECTION */}
+      {/* ðŸ‡®ðŸ‡³ 2026 AGRISTACK: DIGITAL IDENTITY & LAND RECORD SECTION */}
       <div style={{ 
         background: profile?.agriStackVerified ? '#f0f9ff' : '#fff', 
         borderRadius: '16px', 
@@ -187,7 +186,7 @@ export default function FarmerDashboard() {
         border: `1px solid ${profile?.agriStackVerified ? '#bae6fd' : '#e5e7eb'}`
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-          <span style={{ fontSize: '24px' }}>🛡️</span>
+          <span style={{ fontSize: '24px' }}>ðŸ›¡ï¸</span>
           <div>
             <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '800', color: '#1B4332' }}>
               AgriStack Identity (Mission 2026)
@@ -219,7 +218,7 @@ export default function FarmerDashboard() {
                 const id = document.getElementById('agristack-id-input')?.value;
                 const consent = document.getElementById('ufsi-consent')?.checked;
                 
-                if(!id) return alert("Please enter your UFSI ID / कृपया अपनी आईडी दर्ज करें।");
+                if(!id) return alert("Please enter your UFSI ID / à¤•à¥ƒà¤ªà¤¯à¤¾ à¤…à¤ªà¤¨à¥€ à¤†à¤ˆà¤¡à¥€ à¤¦à¤°à¥à¤œ à¤•à¤°à¥‡à¤‚à¥¤");
                 if(!consent) return alert("UFSI Handshake Error: You must grant legal consent to proceed.");
                 
                 try {
@@ -238,13 +237,13 @@ export default function FarmerDashboard() {
               }}
               style={{ width: '100%', backgroundColor: '#1B4332', color: '#fff', border: 'none', padding: '14px', borderRadius: '10px', fontWeight: 'bold', cursor: 'pointer' }}
             >
-              🤝 Initiate Legal Handshake
+              ðŸ¤ Initiate Legal Handshake
             </button>
           </div>
         ) : (
           <div style={{ padding: '12px', backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #bae6fd' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#0369a1' }}>✅ VERIFIED LAND RECORDS</span>
+              <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#0369a1' }}>âœ… VERIFIED LAND RECORDS</span>
               <span style={{ fontSize: '12px', color: '#64748b' }}>Origin: {profile.ufsi_handshake?.registryOrigin}</span>
             </div>
             
@@ -260,25 +259,25 @@ export default function FarmerDashboard() {
               <div style={{ 
                 fontSize: '10px', color: '#059669', fontWeight: 'bold', backgroundColor: '#ecfdf5', padding: '4px 8px', borderRadius: '6px', display: 'inline-block' 
               }}>
-                🎖️ DBT ELIGIBLE
+                ðŸŽ–ï¸ DBT ELIGIBLE
               </div>
               <div style={{ 
                 fontSize: '10px', color: '#0284c7', fontWeight: 'bold', backgroundColor: '#e0f2fe', padding: '4px 8px', borderRadius: '6px', display: 'inline-block' 
               }}>
-                📑 LEGAL ADVISORY CERTIFIED
+                ðŸ“‘ LEGAL ADVISORY CERTIFIED
               </div>
             </div>
 
-            {/* 🌍 2026 TRIPLE C LEDGER (MRV COMPLIANT) */}
+            {/* ðŸŒ 2026 TRIPLE C LEDGER (MRV COMPLIANT) */}
             <div style={{ marginTop: '20px', padding: '16px', backgroundColor: '#fdfcfe', borderRadius: '12px', border: '1px solid #e9d5ff' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '800', color: '#6b21a8' }}>🌱 Triple C Ledger (ICM Standard)</h4>
+                <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '800', color: '#6b21a8' }}>ðŸŒ± Triple C Ledger (ICM Standard)</h4>
                 <div style={{ textAlign: 'right' }}>
                   <span style={{ fontSize: '18px', fontWeight: '900', color: '#7e22ce' }}>{profile.carbonCredits || 12.5} Credits</span>
                   {profile.baselineMeasurement ? (
-                    <div style={{ fontSize: '10px', color: '#059669', fontWeight: '800' }}>✅ MRV VERIFIED</div>
+                    <div style={{ fontSize: '10px', color: '#059669', fontWeight: '800' }}>âœ… MRV VERIFIED</div>
                   ) : (
-                    <div style={{ fontSize: '10px', color: '#dc2626', fontWeight: '800' }}>⚠️ BASELINE REQUIRED</div>
+                    <div style={{ fontSize: '10px', color: '#dc2626', fontWeight: '800' }}>âš ï¸ BASELINE REQUIRED</div>
                   )}
                 </div>
               </div>
@@ -296,22 +295,22 @@ export default function FarmerDashboard() {
                           initialValue: 0.65 
                         });
                         setProfile(res.data.data);
-                        toast.success("🌱 Baseline recorded via Satellite Hub!");
+                        toast.success("ðŸŒ± Baseline recorded via Satellite Hub!");
                       } catch(e) { alert("Baseline Error: MRV Registry Offline."); }
                     }}
                     style={{ width: '100%', backgroundColor: '#7e22ce', color: '#fff', border: 'none', padding: '8px', borderRadius: '6px', fontSize: '11px', fontWeight: 'bold', cursor: 'pointer' }}
                   >
-                    🚀 Record Mandatory Baseline
+                    ðŸš€ Record Mandatory Baseline
                   </button>
                 </div>
               ) : (
                 <>
                   <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '4px' }}>
                     <span style={{ padding: '4px 8px', backgroundColor: '#faf5ff', border: '1px solid #e9d5ff', borderRadius: '20px', fontSize: '10px', color: '#7e22ce', fontWeight: 'bold', whiteSpace: 'nowrap' }}>
-                      🌱 No-Till Farming Map (+4.2)
+                      ðŸŒ± No-Till Farming Map (+4.2)
                     </span>
                     <span style={{ padding: '4px 8px', backgroundColor: '#faf5ff', border: '1px solid #e9d5ff', borderRadius: '20px', fontSize: '10px', color: '#7e22ce', fontWeight: 'bold', whiteSpace: 'nowrap' }}>
-                      💧 Solar Irrigation (+8.3)
+                      ðŸ’§ Solar Irrigation (+8.3)
                     </span>
                   </div>
                   <div style={{ marginTop: '12px', padding: '8px', borderTop: '1px solid #f3e8ff', fontSize: '10px', color: '#6b7280' }}>
@@ -321,7 +320,7 @@ export default function FarmerDashboard() {
               )}
               
               <p style={{ margin: '8px 0 0 0', fontSize: '10px', color: '#6b7280', textAlign: 'right' }}>
-                Current Valuation: ₹{(profile.carbonCredits || 12.5) * 850} (Redeemable via AgriStack)
+                Current Valuation: â‚¹{(profile.carbonCredits || 12.5) * 850} (Redeemable via AgriStack)
               </p>
             </div>
           </div>
@@ -369,3 +368,4 @@ export default function FarmerDashboard() {
     </div>
   );
 }
+

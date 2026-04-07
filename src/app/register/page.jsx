@@ -60,13 +60,15 @@ export default function RegisterPage() {
         return;
       }
 
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
+      // API returns { success: true, data: { token, _id, name, ... } }
+      const { token, ...userInfo } = data.data;
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(userInfo));
 
       // Save for Service Worker access
       try {
-        const { saveAuthToken } = require('@/lib/offlineDb');
-        await saveAuthToken(data.token);
+        const { saveAuthToken } = await import('@/lib/offlineDb');
+        await saveAuthToken(token);
       } catch (e) {
         console.warn('Offline token save failed', e);
       }

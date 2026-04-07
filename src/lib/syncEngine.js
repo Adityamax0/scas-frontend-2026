@@ -108,9 +108,9 @@ class SyncEngine {
 
       this._setStatus('syncing');
 
-      const token = Cookies.get('scas_token');
+      const token = localStorage.getItem('token');
       if (!token) {
-        console.warn('[SYNC] No auth token found. Skipping sync.');
+        console.warn('[SYNC] No auth token found in localStorage. Skipping sync.');
         this._setStatus('error');
         this.isSyncing = false;
         return;

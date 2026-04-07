@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import nextDynamic from 'next/dynamic';
@@ -7,14 +7,13 @@ import NotificationCenter from '@/components/NotificationCenter';
 import { useLang } from '@/lib/LanguageContext';
 import api from '@/lib/api';
 
-// 🔄 Dynamically import window-heavy components with SSR disabled
+// ðŸ”„ Dynamically import window-heavy components with SSR disabled
 const DiseaseHeatmap = nextDynamic(() => import('@/components/DiseaseHeatmap'), { ssr: false });
 const OperationalAnalytics = nextDynamic(() => import('@/components/OperationalAnalytics'), { ssr: false });
 
 
 
 
-export const dynamic = 'force-static';
 
 export default function SubHeadDashboard() {
   const { t } = useLang();
@@ -78,7 +77,7 @@ export default function SubHeadDashboard() {
     <div className="dashboard-container">
       <div className="dashboard-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h1 className="dashboard-title">🏛️ Government Oversight Portal</h1>
+          <h1 className="dashboard-title">ðŸ›ï¸ Government Oversight Portal</h1>
           <p style={{ color: '#6b7280', marginTop: '4px' }}>District-level operations & critical case management</p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -121,7 +120,7 @@ export default function SubHeadDashboard() {
             cursor: 'pointer'
           }}
         >
-          📂 Case Management
+          ðŸ“‚ Case Management
         </button>
         <button 
           onClick={() => setActiveTab('analytics')}
@@ -136,13 +135,13 @@ export default function SubHeadDashboard() {
             cursor: 'pointer'
           }}
         >
-          📈 District Analytics
+          ðŸ“ˆ District Analytics
         </button>
       </div>
 
       {activeTab === 'analytics' ? (
         <div className="analytics-view">
-          <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#1b4332' }}>📍 Disease Outbreak Heatmap</h2>
+          <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#1b4332' }}>ðŸ“ Disease Outbreak Heatmap</h2>
           <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '16px' }}>
             Real-time geospatial locations of reported crop failures.
           </p>
@@ -158,7 +157,7 @@ export default function SubHeadDashboard() {
             <p style={{ color: '#6b7280' }}>{t('loading')}</p>
           ) : tickets.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '40px', color: '#6b7280' }}>
-              <div style={{ fontSize: '48px', marginBottom: '12px' }}>✅</div>
+              <div style={{ fontSize: '48px', marginBottom: '12px' }}>âœ…</div>
               <p>No escalated cases at this time. All under control!</p>
             </div>
           ) : (
@@ -177,26 +176,26 @@ export default function SubHeadDashboard() {
                           {ticket.priority || 'medium'}
                         </span>
                         {ticket.slaBreached && (
-                          <span style={{ fontSize: '11px', fontWeight: 900, color: '#ef4444' }}>🚨 SLA BREACHED</span>
+                          <span style={{ fontSize: '11px', fontWeight: 900, color: '#ef4444' }}>ðŸš¨ SLA BREACHED</span>
                         )}
                       </div>
                       
                       <div style={{ fontWeight: 600, marginBottom: '4px' }}>{ticket.description.slice(0, 120)}</div>
                       <div style={{ fontSize: '12px', color: '#9ca3af', marginBottom: '4px' }}>
-                        Farmer: <strong>{ticket.farmer?.name}</strong> ({ticket.farmer?.district}) • Worker: {ticket.assignedWorker?.name || 'Unassigned'}
+                        Farmer: <strong>{ticket.farmer?.name}</strong> ({ticket.farmer?.district}) â€¢ Worker: {ticket.assignedWorker?.name || 'Unassigned'}
                       </div>
                       <div style={{ display: 'flex', gap: '8px' }}>
                         <button 
                           className="btn btn-primary" 
                           onClick={() => handleResolve(ticket._id)}
                         >
-                          ✅ Resolve
+                          âœ… Resolve
                         </button>
                         <button 
                           className="btn btn-danger" 
                           onClick={() => handleEscalateToAdmin(ticket._id)}
                         >
-                          🏛️ Escalate
+                          ðŸ›ï¸ Escalate
                         </button>
                       </div>
                     </div>
@@ -210,3 +209,4 @@ export default function SubHeadDashboard() {
     </div>
   );
 }
+

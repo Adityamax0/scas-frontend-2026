@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import WeatherAdvisory from '@/components/WeatherAdvisory';
@@ -9,7 +9,6 @@ import { getSocket, joinDistrictRoom, disconnectSocket } from '@/lib/socket';
 import { toast } from 'react-hot-toast';
 import api from '@/lib/api';
 
-export const dynamic = 'force-static';
 
 export default function WorkerDashboard() {
   const { t } = useLang();
@@ -54,9 +53,9 @@ export default function WorkerDashboard() {
             
             console.log('[REALTIME] New ticket received:', ticket);
             
-            toast.success(`${isUrgent ? '🆘 URGENT AI ESCALATION' : '🆘 NEW TICKET'}: ${ticket.description.slice(0, 30)}...`, {
+            toast.success(`${isUrgent ? 'ðŸ†˜ URGENT AI ESCALATION' : 'ðŸ†˜ NEW TICKET'}: ${ticket.description.slice(0, 30)}...`, {
               duration: isUrgent ? 10000 : 6000,
-              icon: isUrgent ? '🌋' : '🚨',
+              icon: isUrgent ? 'ðŸŒ‹' : 'ðŸš¨',
               style: isUrgent ? { border: '2px solid #ef4444', backgroundColor: '#fef2f2', color: '#991b1b', fontWeight: 'bold' } : {}
             });
             
@@ -72,13 +71,13 @@ export default function WorkerDashboard() {
             fetchTickets();
           });
 
-          // 🌪️ DIGITAL TWIN: District-Wide Emergency Broadcast Listener
+          // ðŸŒªï¸ DIGITAL TWIN: District-Wide Emergency Broadcast Listener
           socket.on('emergency_broadcast', (payload) => {
             console.log('[EMERGENCY] Global Alert:', payload);
             
             toast.error(payload.message, {
               duration: 15000,
-              icon: '🌪️',
+              icon: 'ðŸŒªï¸',
               style: { 
                 border: '3px solid #dc2626', 
                 backgroundColor: '#fef2f2', 
@@ -108,7 +107,7 @@ export default function WorkerDashboard() {
     };
   }, []);
 
-  // ── PULL-TO-REFRESH LOGIC (Mobile Optimized) ──
+  // â”€â”€ PULL-TO-REFRESH LOGIC (Mobile Optimized) â”€â”€
   const [startY, setStartY] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -127,7 +126,7 @@ export default function WorkerDashboard() {
   const handleResolve = async (ticketId) => {
     const file = proofFile[ticketId];
     if (!file) {
-      alert("Please upload a photo as proof of work first! / कृपया पहले काम का सबूत (फोटो) अपलोड करें।");
+      alert("Please upload a photo as proof of work first! / à¤•à¥ƒà¤ªà¤¯à¤¾ à¤ªà¤¹à¤²à¥‡ à¤•à¤¾à¤® à¤•à¤¾ à¤¸à¤¬à¥‚à¤¤ (à¤«à¥‹à¤Ÿà¥‹) à¤…à¤ªà¤²à¥‹à¤¡ à¤•à¤°à¥‡à¤‚à¥¤");
       return;
     }
 
@@ -164,7 +163,7 @@ export default function WorkerDashboard() {
   const handleEscalate = async (ticketId) => {
     try {
       await api.post(`/tickets/${ticketId}/escalate`, {
-        reason: 'Requires specialist — escalating to sub-head',
+        reason: 'Requires specialist â€” escalating to sub-head',
       });
       fetchTickets();
     } catch (err) {
@@ -214,7 +213,7 @@ export default function WorkerDashboard() {
             {[1, 2, 3].map(i => <TicketSkeleton key={i} />)}
           </div>
         ) : activeTickets.length === 0 ? (
-          <p style={{ color: '#6b7280' }}>No active cases. All caught up! ✅</p>
+          <p style={{ color: '#6b7280' }}>No active cases. All caught up! âœ…</p>
         ) : (
           <div className="ticket-list">
             {activeTickets.map((ticket) => (
@@ -248,7 +247,7 @@ export default function WorkerDashboard() {
               onClick={() => setSelectedTicket(null)}
               style={{ position: 'absolute', top: '24px', right: '24px', background: '#f1f5f9', border: 'none', borderRadius: '50%', width: '36px', height: '36px', cursor: 'pointer', fontWeight: 'bold', color: '#64748b' }}
             >
-              ✕
+              âœ•
             </button>
             
             <div style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '12px', backgroundColor: selectedTicket.priority === 'critical' ? '#fee2e2' : '#f1f5f9', color: selectedTicket.priority === 'critical' ? '#991b1b' : '#475569', fontSize: '12px', fontWeight: '800', textTransform: 'uppercase', marginBottom: '16px' }}>
@@ -258,16 +257,16 @@ export default function WorkerDashboard() {
             <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#111827', marginBottom: '24px' }}>Case Details</h2>
             
             <div style={{ backgroundColor: '#f8fafc', padding: '20px', borderRadius: '16px', border: '1px solid #e2e8f0', marginBottom: '24px' }}>
-              <p style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', marginBottom: '8px' }}>🧑‍🌾 Farmer Information</p>
+              <p style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', marginBottom: '8px' }}>ðŸ§‘â€ðŸŒ¾ Farmer Information</p>
               <p style={{ margin: '0 0 4px 0', fontWeight: '600', color: '#1e293b' }}>{selectedTicket.farmer?.name || 'Unknown Farmer'}</p>
-              <p style={{ margin: '0 0 4px 0', color: '#475569', fontSize: '14px' }}>📞 {selectedTicket.farmer?.phone || 'No phone provided'}</p>
+              <p style={{ margin: '0 0 4px 0', color: '#475569', fontSize: '14px' }}>ðŸ“ž {selectedTicket.farmer?.phone || 'No phone provided'}</p>
               {selectedTicket.location?.coordinates && (
-                <p style={{ margin: 0, color: '#475569', fontSize: '14px' }}>📍 GPS: {selectedTicket.location.coordinates[1].toFixed(4)}, {selectedTicket.location.coordinates[0].toFixed(4)}</p>
+                <p style={{ margin: 0, color: '#475569', fontSize: '14px' }}>ðŸ“ GPS: {selectedTicket.location.coordinates[1].toFixed(4)}, {selectedTicket.location.coordinates[0].toFixed(4)}</p>
               )}
             </div>
 
             <div style={{ marginBottom: '24px' }}>
-              <p style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', marginBottom: '8px' }}>📝 Full Transcript & Assessment</p>
+              <p style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', marginBottom: '8px' }}>ðŸ“ Full Transcript & Assessment</p>
               <div style={{ backgroundColor: '#fffbe6', padding: '20px', borderLeft: '4px solid #f59e0b', borderRadius: '8px', fontSize: '15px', color: '#374151', lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>
                 {selectedTicket.description}
               </div>
@@ -275,7 +274,7 @@ export default function WorkerDashboard() {
 
             {selectedTicket.mediaUrl && (
               <div style={{ marginBottom: '24px' }}>
-                <p style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', marginBottom: '8px' }}>🖼️ Attached Evidence</p>
+                <p style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', marginBottom: '8px' }}>ðŸ–¼ï¸ Attached Evidence</p>
                 <img src={selectedTicket.mediaUrl} alt="Evidence" style={{ width: '100%', borderRadius: '16px', border: '1px solid #e2e8f0' }} />
               </div>
             )}
@@ -283,7 +282,7 @@ export default function WorkerDashboard() {
             {/* ACTION AREA - Only for non-resolved tickets */}
             {selectedTicket.status !== 'resolved' && (
               <div style={{ backgroundColor: '#f8fafc', padding: '24px', borderRadius: '20px', border: '1px solid #e2e8f0', marginBottom: '24px' }}>
-                <p style={{ fontSize: '12px', fontWeight: '800', color: '#1b4332', textTransform: 'uppercase', marginBottom: '12px' }}>🛠️ Resolution Actions</p>
+                <p style={{ fontSize: '12px', fontWeight: '800', color: '#1b4332', textTransform: 'uppercase', marginBottom: '12px' }}>ðŸ› ï¸ Resolution Actions</p>
                 
                 {/* Proof Selection UI */}
                 <div style={{ marginBottom: '20px' }}>
@@ -295,10 +294,10 @@ export default function WorkerDashboard() {
                       className="hidden" 
                       onChange={(e) => setProofFile(prev => ({ ...prev, [selectedTicket._id]: e.target.files[0] }))}
                     />
-                    <span style={{ fontSize: '24px' }}>📸</span>
+                    <span style={{ fontSize: '24px' }}>ðŸ“¸</span>
                     <div style={{ flex: 1 }}>
                       <p style={{ fontSize: '14px', fontWeight: '700', color: '#1e293b' }}>
-                        {proofFile[selectedTicket._id] ? '✅ Photo Proof Selected' : 'Take Photo of Resolution'}
+                        {proofFile[selectedTicket._id] ? 'âœ… Photo Proof Selected' : 'Take Photo of Resolution'}
                       </p>
                       <p style={{ fontSize: '11px', color: '#64748b' }}>Required to resolve the ticket</p>
                     </div>
@@ -312,14 +311,14 @@ export default function WorkerDashboard() {
                     onClick={() => { handleResolve(selectedTicket._id); setSelectedTicket(null); }} 
                     disabled={!proofFile[selectedTicket._id] || isUploading}
                   >
-                    {isUploading ? 'Uploading...' : '✅ Resolve Case'}
+                    {isUploading ? 'Uploading...' : 'âœ… Resolve Case'}
                   </button>
                   <button 
                     className="btn btn-danger" 
                     style={{ flex: 0.4, padding: '16px', fontSize: '14px', borderRadius: '14px' }}
                     onClick={() => { handleEscalate(selectedTicket._id); setSelectedTicket(null); }} 
                   >
-                    ⬆️ Escalate
+                    â¬†ï¸ Escalate
                   </button>
                 </div>
               </div>
@@ -337,3 +336,4 @@ export default function WorkerDashboard() {
     </div>
   );
 }
+
