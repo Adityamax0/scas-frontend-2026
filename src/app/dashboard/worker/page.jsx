@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import WeatherAdvisory from '@/components/WeatherAdvisory';
@@ -102,7 +102,13 @@ export default function WorkerDashboard() {
 
     initData();
 
+    // Cleanup: remove listeners and disconnect socket on unmount
     return () => {
+      const socket = getSocket();
+      if (socket) {
+        socket.off('new_ticket');
+        socket.off('emergency_broadcast');
+      }
       disconnectSocket();
     };
   }, []);
@@ -267,15 +273,16 @@ export default function WorkerDashboard() {
 
             <div style={{ marginBottom: '24px' }}>
               <p style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', marginBottom: '8px' }}>ðŸ“ Full Transcript & Assessment</p>
+              <p style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', marginBottom: '8px' }}>📝 Full Transcript & Assessment</p>
               <div style={{ backgroundColor: '#fffbe6', padding: '20px', borderLeft: '4px solid #f59e0b', borderRadius: '8px', fontSize: '15px', color: '#374151', lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>
                 {selectedTicket.description}
               </div>
             </div>
 
-            {selectedTicket.mediaUrl && (
+            {selectedTicket.mediaUrls?.length > 0 && (
               <div style={{ marginBottom: '24px' }}>
-                <p style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', marginBottom: '8px' }}>ðŸ–¼ï¸ Attached Evidence</p>
-                <img src={selectedTicket.mediaUrl} alt="Evidence" style={{ width: '100%', borderRadius: '16px', border: '1px solid #e2e8f0' }} />
+                <p style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', marginBottom: '8px' }}>🖼️ Attached Evidence</p>
+                <img src={selectedTicket.mediaUrls[0]} alt="Evidence" style={{ width: '100%', borderRadius: '16px', border: '1px solid #e2e8f0' }} />
               </div>
             )}
 

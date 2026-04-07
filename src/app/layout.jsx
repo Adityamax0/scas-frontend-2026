@@ -33,12 +33,21 @@ export default function RootLayout({ children }) {
         <script
           dangerouslySetInnerHTML={{
             __html: `
+              // Route Guard: Protect /dashboard/* from unauthenticated access
+              (function() {
+                var path = window.location.pathname;
+                if (path.startsWith('/dashboard') && !localStorage.getItem('token')) {
+                  window.location.replace('/login');
+                }
+              })();
+
+              // Service Worker Registration
               if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
-                  navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
-                    console.log('SCAS SW registered: ', registration);
+                  navigator.serviceWorker.register('/sw.js').then(function(reg) {
+                    console.log('SCAS SW registered:', reg.scope);
                   }, function(err) {
-                    console.log('SCAS SW registration failed: ', err);
+                    console.log('SCAS SW registration failed:', err);
                   });
                 });
               }
