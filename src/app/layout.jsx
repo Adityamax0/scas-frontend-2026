@@ -3,6 +3,7 @@ import SyncStatus from '@/components/SyncStatus';
 import { LanguageProvider } from '@/lib/LanguageContext';
 import LangToggle from '@/components/LangToggle';
 import { Toaster } from 'react-hot-toast';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 export const metadata = {
   title: 'SCAS — Smart Crop Advisory System',
@@ -25,10 +26,12 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <LanguageProvider>
-          <SyncStatus />
-          <LangToggle />
-          <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
-          {children}
+          <ErrorBoundary>
+            <SyncStatus />
+            <LangToggle />
+            <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
+            {children}
+          </ErrorBoundary>
         </LanguageProvider>
         <script
           dangerouslySetInnerHTML={{

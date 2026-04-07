@@ -1,8 +1,8 @@
 import { getPendingTickets, markAsSynced, markSyncError, clearSyncedTickets } from './offlineDb';
-import axios from 'axios';
-import Cookies from 'js-cookie';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+import axios from 'axios';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://scas-backend.onrender.com';
 
 /**
  * SyncEngine: Manages offline/online state detection and ticket synchronization.

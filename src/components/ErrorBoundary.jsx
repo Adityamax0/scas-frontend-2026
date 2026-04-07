@@ -1,69 +1,84 @@
 'use client';
 
-import React from 'react';
+import { Component } from 'react';
 
 /**
- * Production Hardening: Self-Healing Error Boundary
- * Wraps fragile widgets so that if one crashes (e.g. malformed API payload),
- * it isolates the failure and displays a localized fallback UI instead of crashing the entire React tree.
+ * ErrorBoundary — catches unexpected React render errors and shows a
+ * friendly fallback instead of a blank white screen ("White Screen of Death").
  */
-class ErrorBoundary extends React.Component {
+export default class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null };
   }
 
   static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI
     return { hasError: true, error };
   }
 
-  componentDidCatch(error, errorInfo) {
-    // You can also log the error to an error reporting service here
-    console.error('[ERROR BOUNDARY CAUGHT CRASH]:', error, errorInfo);
+  componentDidCatch(error, info) {
+    console.error('[SCAS ErrorBoundary] Caught error:', error, info);
   }
 
   render() {
     if (this.state.hasError) {
       return (
         <div style={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#f3f4f6',
+          fontFamily: "'Inter', sans-serif",
           padding: '24px',
-          backgroundColor: '#fee2e2',
-          border: '1px solid #ef4444',
-          borderRadius: '16px',
-          textAlign: 'center',
-          color: '#991b1b',
-          marginBottom: '20px',
-          fontFamily: 'system-ui, sans-serif'
         }}>
-          <span style={{ fontSize: '32px', display: 'block', marginBottom: '12px' }}>⚠️</span>
-          <h3 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: 'bold' }}>
-            {this.props.fallbackMessage || 'This widget encountered a temporary issue.'}
-          </h3>
-          <p style={{ margin: '0 0 16px 0', fontSize: '13px', opacity: 0.8 }}>
-            Our self-healing systems have isolated the error to protect your dashboard.
-          </p>
-          <button
-            onClick={() => this.setState({ hasError: false })}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: '#b91c1c',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              fontSize: '12px',
-              fontWeight: 'bold',
-              cursor: 'pointer'
-            }}
-          >
-            Retry Widget
-          </button>
+          <div style={{
+            maxWidth: '480px',
+            width: '100%',
+            backgroundColor: '#fff',
+            borderRadius: '24px',
+            padding: '48px 40px',
+            textAlign: 'center',
+            boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)',
+          }}>
+            <div style={{ fontSize: '64px', marginBottom: '24px' }}>⚠️</div>
+            <h1 style={{ fontSize: '22px', fontWeight: '800', color: '#1b4332', marginBottom: '12px' }}>
+              Something went wrong
+            </h1>
+            <p style={{ fontSize: '14px', color: '#6b7280', lineHeight: '1.6', marginBottom: '28px' }}>
+              An unexpected error occurred. Your saved tickets are safe. Please try reloading the page.
+            </p>
+            <button
+              onClick={() => { this.setState({ hasError: false, error: null }); window.location.reload(); }}
+              style={{
+                width: '100%',
+                padding: '14px',
+                backgroundColor: '#1b4332',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '12px',
+                fontSize: '15px',
+                fontWeight: '700',
+                cursor: 'pointer',
+              }}
+            >
+              Reload SCAS
+            </button>
+            {process.env.NODE_ENV === 'development' && (
+              <details style={{ marginTop: '20px', textAlign: 'left' }}>
+                <summary style={{ fontSize: '12px', color: '#9ca3af', cursor: 'pointer' }}>
+                  Developer Details
+                </summary>
+                <pre style={{ fontSize: '11px', color: '#ef4444', marginTop: '8px', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                  {this.state.error?.toString()}
+                </pre>
+              </details>
+            )}
+          </div>
         </div>
       );
     }
 
-    return this.props.children; 
+    return this.props.children;
   }
 }
-
-export default ErrorBoundary;

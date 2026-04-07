@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useLang } from '@/lib/LanguageContext';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://scas-backend.onrender.com';
 
 export default function LoginPage() {
   const { t } = useLang();
@@ -55,8 +55,12 @@ export default function LoginPage() {
       localStorage.setItem('user', JSON.stringify(user));
       
       // Save for Service Worker access
-      const { saveAuthToken } = require('@/lib/offlineDb');
-      await saveAuthToken(user.token);
+      try {
+        const { saveAuthToken } = await import('@/lib/offlineDb');
+        await saveAuthToken(user.token);
+      } catch (e) {
+        console.warn('Offline token save failed', e);
+      }
 
       // Redirect based on role
       const role = user.role;
