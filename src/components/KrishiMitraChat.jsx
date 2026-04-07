@@ -117,8 +117,8 @@ export default function KrishiMitraChat({ onTicketCreated }) {
         currentIdx++;
       }, 30); // 30ms per word is a comfortable human reading speed
 
-      // 🔊 AUTO-SPEAK: If voice mode is enabled, speak the answer
-      if (typeof window !== 'undefined' && (next[messageIndex]?.autoSpeak || true)) {
+      // AUTO-SPEAK: Use the component-level autoSpeak state (not 'next[]' which only exists inside setMessages callbacks)
+      if (autoSpeak && typeof window !== 'undefined') {
         speakText(message);
       }
 

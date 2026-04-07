@@ -1,6 +1,7 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
+import { toast } from 'react-hot-toast';
 import TicketForm from '@/components/TicketForm';
 import KrishiMitraChat from '@/components/KrishiMitraChat';
 import { useLang } from '@/lib/LanguageContext';
@@ -21,6 +22,8 @@ export default function FarmerDashboard() {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
+  const [isProcessingVoice, setIsProcessingVoice] = useState(false);
+  const [voiceResponse, setVoiceResponse] = useState(null);
 
   useEffect(() => {
     const fetchProfile = async () => {

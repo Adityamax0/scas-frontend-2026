@@ -149,9 +149,7 @@ export default function TicketForm({ onSuccess }) {
         formData.append('priority', form.priority);
         formData.append('coordinates', JSON.stringify(coordinates));
 
-        files.forEach((file) => formData.append('media', file));
-
-        // Compress images before sending
+        // Compress images before sending to reduce bandwidth for rural users
         const processedFiles = await Promise.all(
           files.map(async (f) => {
             if (f.type.startsWith('image/')) return await compressImage(f);

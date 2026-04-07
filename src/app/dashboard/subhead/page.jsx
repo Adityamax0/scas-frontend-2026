@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import nextDynamic from 'next/dynamic';
@@ -29,7 +29,7 @@ export default function SubHeadDashboard() {
       const [escalated, resolved, stats] = await Promise.all([
         api.get('/tickets?status=escalated_subhead'),
         api.get('/tickets?status=resolved'),
-        api.get('/api/analytics/operational'),
+        api.get('/analytics/operational'),
       ]);
       setTickets(escalated.data.data || []);
       setResolvedTickets(resolved.data.data || []);
@@ -47,7 +47,9 @@ export default function SubHeadDashboard() {
     try {
       await api.patch(`/tickets/${ticketId}/status`, {
         status: 'resolved',
-        notes: 'Resolved after sub-head verification',
+        notes: 'Resolved after sub-head verification and official review',
+        proofOfWorkUrl: `internal://subhead-verified/${ticketId}`,
+        proofOfWorkType: 'subhead_internal',
       });
       fetchData();
     } catch (err) {
