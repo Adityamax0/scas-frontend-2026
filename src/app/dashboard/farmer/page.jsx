@@ -130,9 +130,12 @@ export default function FarmerDashboard() {
         </div>
       </div>
 
-      {/* ðŸ›°ï¸ 2026 PRECISION MONITORING: REMOTE HEALTH */}
+      {/* ðŸ›°ï¸  2026 PRECISION MONITORING: REMOTE HEALTH */}
       <ErrorBoundary fallbackMessage="Satellite Downlink is currently drifting. Please wait for the next orbit.">
-        <SatelliteMap district={profile?.district || "Kanpur"} />
+        {/* 
+          Feature put on hold for future updates:
+          <SatelliteMap district={profile?.district || "Kanpur"} /> 
+        */}
       </ErrorBoundary>
 
       {/* Krishi Mitra AI Chat Interface */}
@@ -179,8 +182,8 @@ export default function FarmerDashboard() {
         </div>
       </ErrorBoundary>
 
-      {/* ðŸ‡®ðŸ‡³ 2026 AGRISTACK: DIGITAL IDENTITY & LAND RECORD SECTION */}
-      <div style={{ 
+      {/* AGRISTACK: DIGITAL IDENTITY & LAND RECORD SECTION (Hidden for future update) */}
+      {false && (<div style={{ 
         background: profile?.agriStackVerified ? '#f0f9ff' : '#fff', 
         borderRadius: '16px', 
         padding: '24px', 
@@ -328,7 +331,7 @@ export default function FarmerDashboard() {
             </div>
           </div>
         )}
-      </div>
+      </div>)}
 
       <ErrorBoundary fallbackMessage="The 3D AI Leaf Scanner experienced a visualization error.">
         <ImageScanner onScanComplete={(data) => console.log('Scan data:', data)} />
