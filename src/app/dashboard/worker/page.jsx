@@ -177,6 +177,11 @@ export default function WorkerDashboard() {
     }
   };
 
+  const statusColors = {
+    submitted: '#6b7280', assigned: '#3b82f6', in_progress: '#f59e0b',
+    escalated_subhead: '#ef4444', escalated_admin: '#dc2626', resolved: '#10b981', closed: '#9ca3af',
+  };
+
   const activeTickets = tickets.filter(t => ['assigned', 'in_progress'].includes(t.status));
   const resolvedTickets = tickets.filter(t => t.status === 'resolved' || t.status === 'closed');
 
